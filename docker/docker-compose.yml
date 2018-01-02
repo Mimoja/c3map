@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+#  app:
+#    build: c3map
+#    container_name: c3map
+#    ports:
+#      - "127.0.0.1:5000:8080"
+#    volumes:
+#      - ../:/usr/src/app
+
+  db:
+    build: postgres
+    container_name: postgis
+    read_only: false
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
+    volumes:
+      - ../db:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432" 
+
+  redis:
+    image: redis:4.0.6-alpine
+    container_name: redis
+    read_only: true
+    volumes:
+      - redis:/data
+    user: redis
+    ports:
+      - "127.0.0.1:6379:6379"
+
+volumes:
+  redis:
